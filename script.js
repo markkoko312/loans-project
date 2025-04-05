@@ -8,72 +8,64 @@ document.addEventListener("DOMContentLoaded", function() {
     }, 1200);
 
     // Handle all navigation links
-    document.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', function(e) {
-            const isAnchor = this.getAttribute('href').startsWith('#');
+    document.querySelectorAll('.animated-button').forEach(button => {
+        button.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            const isAnchor = href.startsWith('#');
             const isExternal = this.hasAttribute('target') && this.getAttribute('target') === '_blank';
+            const isTerroristsLink = href.includes('Terrorists');
             
-            // Handle external links
-            if (!isAnchor && isExternal) {
+            // Handle external links (Home and Terrorists)
+            if ((!isAnchor && isExternal) || isTerroristsLink) {
                 e.preventDefault();
-                showFullLoading(() => {
-                    window.open(this.href, '_blank');
-                });
-            }
-            // Handle regular external links
-            else if (!isAnchor && !isExternal) {
-                e.preventDefault();
-                showFullLoading(() => {
-                    window.location.href = this.href;
+                showButtonLoading(() => {
+                    if (isExternal) {
+                        window.open(href, '_blank');
+                    } else {
+                        window.location.href = href;
+                    }
                 });
             }
             // Handle anchor links
             else if (isAnchor) {
                 e.preventDefault();
-                const targetId = this.getAttribute('href');
-                navigateToSection(targetId);
+                navigateToSection(href);
             }
         });
     });
 
-    // Show full loading screen with callback
-    function showFullLoading(callback) {
-        const loadingScreen = document.getElementById('loading-screen');
-        loadingScreen.classList.remove('hidden');
-        loadingScreen.style.opacity = '1';
+    // Show button loading screen with callback
+    function showButtonLoading(callback) {
+        const buttonLoading = document.getElementById('button-loading');
+        buttonLoading.style.display = 'flex';
         
         setTimeout(() => {
             callback();
             setTimeout(() => {
-                loadingScreen.classList.add('hidden');
+                buttonLoading.style.display = 'none';
             }, 500);
         }, 800);
     }
 
-    // Navigate to section with loading animation
+    // Navigate to section with smooth scrolling
     function navigateToSection(sectionId) {
-        const buttonLoading = document.getElementById('button-loading');
         const targetSection = document.querySelector(sectionId);
-        
         if (!targetSection) return;
         
-        // Show loading animation
-        buttonLoading.style.display = 'flex';
-        
         // Hide current active section
-        document.querySelector('.section.active').classList.remove('active');
+        const currentActive = document.querySelector('.section.active');
+        if (currentActive) {
+            currentActive.classList.remove('active');
+        }
         
-        setTimeout(() => {
-            // Hide loading and show new section
-            buttonLoading.style.display = 'none';
-            targetSection.classList.add('active');
-            
-            // Smooth scroll to section
-            window.scrollTo({
-                top: targetSection.offsetTop - 80,
-                behavior: 'smooth'
-            });
-        }, 600);
+        // Show new section
+        targetSection.classList.add('active');
+        
+        // Smooth scroll to section
+        window.scrollTo({
+            top: targetSection.offsetTop - 80,
+            behavior: 'smooth'
+        });
     }
 
     // Add intersection observer for section transitions
@@ -85,7 +77,20 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }, { threshold: 0.1 });
 
+    // Observe all sections
     document.querySelectorAll('.section').forEach(section => {
         observer.observe(section);
     });
+
+    // Search form handling
+    const searchForm = document.querySelector('.search-container form');
+    if (searchForm) {
+        searchForm.addEventListener('submit', function(e) {
+            const searchInput = this.querySelector('input[name="search"]');
+            if (!searchInput.value.trim()) {
+                e.preventDefault();
+                alert('Please enter a search term');
+            }
+        });
+    }
 });
