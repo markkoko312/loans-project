@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Website</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <!-- Full-page Loading Screen -->
+    <div class="loading-screen" id="loading-screen">
+        <div class="loading-circle">
+            <img src="images.png" alt="Loading" class="loading-image">
+        </div>
+    </div>
+
+    <nav>
+        <ul>
+            <li><a href="https://www.caritas.org/where-caritas-work/middle-east-and-north-africa/egypt/" class="animated-button" id="homeLink" target="_blank">Home</a></li>
+            <li><a href="#about" class="animated-button">About</a></li>
+            <li><a href="#services" class="animated-button">Services</a></li>
+            <li><a href="#contact" class="animated-button">Contact</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="home" class="section active">
+            <div class="welcome-container">
+                <h1 class="welcome-title">Welcome to My Website</h1>
+                <p class="welcome-subtitle">Content loading with smooth transitions</p>
+            </div>
+        </section>
+        <section id="about" class="section">
+            <h2>About Us</h2>
+            <p>Learn more about our company</p>
+        </section>
+        
+        <section id="services" class="section">
+            <h2>Our Services</h2>
+            <p>Discover what we offer</p>
+        </section>
+        
+        <section id="contact" class="section">
+            <h2>Contact Us</h2>
+            <p>Get in touch with our team</p>
+        </section>
+    </main>
+
+    <!-- Button Loading Screen -->
+    <div class="button-loading-screen" id="button-loading">
+        <div class="button-loading-circle">
+            <img src="images.png" alt="Loading" class="loading-image">
+        </div>
+    </div>
+</body>
+</html>
